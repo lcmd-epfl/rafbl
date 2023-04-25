@@ -51,7 +51,9 @@ x_p = sts.transform(x_p)
 y_p, y_s = brr.predict(x_p, return_std=True)
 
 if sys.argv[1] == "1":
-    print(np.array([pool["name"][x] for x in np.argsort(ei(y_p, y_s, y_p.max()))[::-1]]))
+    print(
+        np.array([pool["name"][x] for x in np.argsort(ei(y_p, y_s, y_p.max()))[::-1]])
+    )
 
 elif sys.argv[1] == "2":
     # Gives file number of ligand in lit_pool.csv
