@@ -9,7 +9,7 @@ from .utils import *
 from .data import *
 
 
-def path_finder(g, u, n, excludeSet=None): # deprecated
+def path_finder(g, u, n, excludeSet=None):  # deprecated
     if excludeSet is None:
         excludeSet = set([u])
     else:
@@ -25,7 +25,7 @@ def path_finder(g, u, n, excludeSet=None): # deprecated
     return paths
 
 
-def weight_paths(g, paths, radii=ase.data.covalent_radii): # deprecated
+def weight_paths(g, paths, radii=ase.data.covalent_radii):  # deprecated
     t = 0
     for path in paths:
         if len(path) == 2:
@@ -46,7 +46,7 @@ def weight_paths(g, paths, radii=ase.data.covalent_radii): # deprecated
     return t
 
 
-def paths_finder(g, n): # deprecated
+def paths_finder(g, n):  # deprecated
     paths = []
     for na in g.nodes():
         paths.extend(path_finder(g, na, n))
@@ -98,7 +98,7 @@ def _ring_finder(g, n):
     return [x for x in nx.cycle_basis(g) if len(x) == n]
 
 
-def hall_kier_a(g, radii=ase.data.covalent_radii, mode="a"): # deprecated
+def hall_kier_a(g, radii=ase.data.covalent_radii, mode="a"):  # deprecated
     A = 0
     if mode == "a":
         for na in g.nodes():
@@ -114,7 +114,7 @@ def hall_kier_a(g, radii=ase.data.covalent_radii, mode="a"): # deprecated
     return A
 
 
-def kna(g, n, radii=ase.data.covalent_radii, mode="a"): # deprecated
+def kna(g, n, radii=ase.data.covalent_radii, mode="a"):  # deprecated
     A = hall_kier_a(g, radii, mode=mode)
     num = (A - (n - 1)) * ((A - n) ** 2)
     if n == 1:
@@ -134,7 +134,7 @@ def kna(g, n, radii=ase.data.covalent_radii, mode="a"): # deprecated
     return num / ((p) ** 2)
 
 
-def kn(g, n): # deprecated
+def kn(g, n):  # deprecated
     A = g.number_of_nodes()
     B = g.number_of_edges()
     num = (A - (n - 1)) * ((A - n) ** 2)
@@ -155,12 +155,12 @@ def kn(g, n): # deprecated
     return num / ((p) ** 2)
 
 
-def kier(g): # deprecated
+def kier(g):  # deprecated
     A = g.number_of_nodes()
     return kn(g, 1) * kn(g, 2) / A
 
 
-def hall_kier(g): # deprecated
+def hall_kier(g):  # deprecated
     A = g.number_of_nodes()
     return kna(g, 1) * kna(g, 2) / A
 
@@ -194,11 +194,14 @@ def kier_alpha(g, radii=ase.data.covalent_radii, mode="a"):
             if an != 1:
                 try:
                     k_alpha += (
-                        kier_radii[(an, len(list(g.neighbors(na))))] / kier_radii[(6, 4)]
+                        kier_radii[(an, len(list(g.neighbors(na))))]
+                        / kier_radii[(6, 4)]
                         - 1
                     )
                 except KeyError:
-                    warnings.warn(f"Atomic number '{an}' not tabulated. Using sp3 carbon.")
+                    warnings.warn(
+                        f"Atomic number '{an}' not tabulated. Using sp3 carbon."
+                    )
     else:
         raise NotImplementedError(f"No mode '{mode}'.")
 

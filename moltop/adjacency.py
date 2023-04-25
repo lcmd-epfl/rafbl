@@ -74,7 +74,10 @@ def check_am(am):
     if check_connected(am) and check_symmetric(am):
         return True
     else:
-        print(f"Connected: {check_connected(am)}; Symmetric: {check_symmetric(am)}", file=sys.stderr)
+        print(
+            f"Connected: {check_connected(am)}; Symmetric: {check_symmetric(am)}",
+            file=sys.stderr,
+        )
         return False
 
 
@@ -195,8 +198,8 @@ def am_to_g(mol, atomids, am):
     else:
         z = mol.get_atomic_numbers()
         coords = mol.get_positions()
-    # G = nx.from_numpy_matrix(am, create_using=nx.MultiGraph)
-    G = nx.from_numpy_matrix(am, create_using=nx.Graph)
+    # G = nx.from_numpy_array(am, create_using=nx.MultiGraph)
+    G = nx.from_numpy_array(am, create_using=nx.Graph)
     an_dict = {i: z[i] for i in range(len(z))}
     coord_dict = {i: coords[i] for i in range(len(z))}
     nx.set_node_attributes(G, an_dict, "atomic_number")
@@ -259,7 +262,7 @@ def g_from_smiles(
         params.useSmallRingTorsions = True
         AllChem.EmbedMolecule(m, params=params)
     pt = Chem.rdchem.GetPeriodicTable()
-    z = []    
+    z = []
     for atom in m.GetAtoms():
         an = atom.GetAtomicNum()
         G.add_node(
