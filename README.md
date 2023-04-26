@@ -11,7 +11,7 @@
     - [Screen for candidate ligands for the OA reaction:](#screen-for-candidate-ligands-for-the-oa-reaction)
 
 ## About [↑](#about) 
-RAFBL is the repository accompanying the manuscript: _Reaction-Agnostic Featurization of Bidentate Ligands for Bayesian Ridge Regression of Enantioselectivy_. It includes two packages `modsel` and `moltop`.
+RAFBL is the repository accompanying the manuscript: _Reaction-Agnostic Featurization of Bidentate Ligands for Bayesian Ridge Regression of Enantioselectivity_. It includes two packages `modsel` and `moltop`.
 
 `modsel` is used for additional ligand featurization from base features and takes care of the feature selection for the final models.
 
@@ -28,13 +28,15 @@ And then activate the environment as:
 ## Run [↑](#run) 
 
 ### Generate features from Gaussian output files:
+
+To re-generate the features from Gaussian log files you can run:
 ```bash
 ./feat_csd.sh
 ./feat_lit.sh
 ```
-This process takes a long time but only has to be run once. 
+This process takes a long time but only has to be run once. Beware! If you regenerate the features you will need to finish the process, since the regeneration will overwrite the currently present, already ready to use feature lists.
 
-Alternatively, the final files containing all the features can be found under `ligs/csd_pool.csv` for the CSD ligands and under `ligs/lit_pool.csv` for the literature ligands. 
+The final files containing all the features can be found under `ligs/csd_pool.csv` for the CSD ligands and under `ligs/lit_pool.csv` for the literature ligands. 
 
 ### Run whole model selection pipeline:
 ```bash
