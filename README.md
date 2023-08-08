@@ -11,7 +11,7 @@
     - [Screen for candidate ligands for the OA reaction:](#screen-for-candidate-ligands-for-the-oa-reaction)
 
 ## About [↑](#about) 
-RAFBL is the repository accompanying the manuscript: _Reaction-Agnostic Featurization of Bidentate Ligands for Bayesian Ridge Regression of Enantioselectivity_. It includes two packages `modsel` and `moltop`.
+RAFBL is the repository accompanying the manuscript: [_Reaction-Agnostic Featurization of Bidentate Ligands for Bayesian Ridge Regression of Enantioselectivity_](https://doi.org/10.26434/chemrxiv-2023-pknnt). It includes two packages `modsel` and `moltop`.
 
 `modsel` is used for additional ligand featurization from base features and takes care of the feature selection for the final models.
 
