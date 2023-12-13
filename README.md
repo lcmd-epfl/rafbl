@@ -17,7 +17,7 @@ RAFBL is the repository accompanying the manuscript: [_Reaction-Agnostic Featuri
 
 `moltop` generates topological features from molecular structures. A molecular graph is either constructed using xyz coordinates and covalent radii or SMILES directly.  
 
-Ligand features can be visualized on [Materials Cloud](https://doi.org/10.24435/materialscloud:1m-gv).
+Ligand features can be visualized on [Materials Cloud](https://doi.org/10.24435/materialscloud:c0-7z).
 
 ## Install [↑](#install) 
 We recommend the use of [conda](https://docs.conda.io/en/latest/miniconda.html) to install all the require dependencies.
