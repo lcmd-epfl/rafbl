@@ -382,7 +382,7 @@ def bl_pool_featurize(df, symm=False, full=False):
     ]
 
     if full:
-        return df_defrag
+        return df_defrag, feats
     else:
         return df_defrag[feats]
 

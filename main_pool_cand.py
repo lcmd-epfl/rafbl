@@ -1,68 +1,42 @@
 import sys
-
-import numpy as np
 import pandas as pd
-
+import numpy as np
+from ast import literal_eval
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import BayesianRidge
-
+from sklearn.pipeline import make_pipeline
+from modsel.featurizer import bl_pool_featurize
 from modsel.utils import ei
-from modsel.featurizer import bl_featurize, bl_pool_featurize
 
-# indices corresponding to: 'nbo1', 'f2ka', 'onhh1'
-feat = [0, 127, 203]
+task = int(sys.argv[1])
 
-lig_feats = pd.read_csv("ligs/lit_pool.csv")
-lig_resps = pd.read_csv("ligs/responses.csv")
+### Fit best model
+models = pd.read_csv("results/results_0.csv")
+data = pd.read_csv("ligs/lit_model/oa_full.csv")
+target = "ddg"
+best_feats = list(literal_eval(models.iloc[0]["Model"]))
 
-X, Y = bl_featurize(lig_feats, lig_resps, uid="c_smiles", task="oa", target="ddg")
+reg = make_pipeline(StandardScaler(), BayesianRidge())
 
-used_in_tr = X.index.to_list()
+x, y = data[best_feats], data[target]
+reg.fit(x, y)
 
-X = X.reset_index(drop=True)
-Y = Y.reset_index(drop=True)
-
-x = X.to_numpy()
-y = Y.to_numpy()
-
-x = x[:, feat]
-y = y
-
-brr = BayesianRidge()
-sts = StandardScaler()
-
-x = sts.fit_transform(x)
-
-print(brr.fit(x, y).score(x, y))
-print(brr.coef_, brr.intercept_)
-print(np.asarray(X.columns)[feat])
-
-if sys.argv[1] == "1":
+### Evaluate candidate pool
+if task == 1:
     pool = pd.read_csv("ligs/csd_pool.csv")
-elif sys.argv[1] == "2":
-    pool = lig_feats
-
-plfs = bl_pool_featurize(pool, symm=False)
-flfs = bl_pool_featurize(lig_feats)
-
-x_p = plfs.to_numpy()[:, feat]
-x_p = sts.transform(x_p)
-
-y_p, y_s = brr.predict(x_p, return_std=True)
-
-if sys.argv[1] == "1":
+elif task == 2:
+    pool = pd.read_csv("ligs/lit_pool.csv")
+else:
     print(
-        np.array([pool["name"][x] for x in np.argsort(ei(y_p, y_s, y_p.max()))[::-1]])
+        f"Options: 1 -> csd ligands, 2 -> literature ligands. '{task}' is not an option."
     )
+    exit(0)
 
-elif sys.argv[1] == "2":
-    # Gives file number of ligand in lit_pool.csv
-    print(
-        np.array(
-            [
-                pool["name"][x]
-                for x in np.argsort(ei(y_p, y_s, y_p.max()))[::-1]
-                if x not in used_in_tr
-            ]
-        )
-    )
+plfs = bl_pool_featurize(pool)
+
+y_p, y_u = reg.predict(plfs[best_feats], return_std=True)
+
+print(np.array([pool["name"][x] for x in np.argsort(ei(y_p, y_u, y_p.max()))[::-1]]))
+
+si = np.argsort(ei(y_p, y_u, y_p.max()))[::-1]
+print(y_p[si], y_u[si], si)

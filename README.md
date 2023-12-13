@@ -43,13 +43,12 @@ The final files containing all the features can be found under `ligs/csd_pool.cs
 ### Run whole model selection pipeline:
 ```bash
 # possible modes: 0 -> oa, 1- > cp, 2 -> cc, 3 -> da_f
-python main_full_model.py 0
-```
-This process takes around 3.5 minutes on an Intel® Core™ i7-9700K CPU. 
+python main_models.py 0
+``` 
 
 ### Screen for candidate ligands for the OA reaction:
 ```bash
 # possible modes: 1 -> csd ligands, 2 -> literature ligands  
 python main_pool_cand.py 1
 ```
-Besides scores of the chosen model, a list of ligands sorted by decreasing Expected Improvement (EI) values is obtained.   
+A list of ligands sorted by decreasing Expected Improvement (EI) values is obtained.   
